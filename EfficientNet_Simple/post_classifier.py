@@ -232,7 +232,7 @@ if __name__ == "__main__":
         porn_labels = ['common_porn', 'cartoon_porn']
         sexy_labels = ['cartoon_sexy', 'female_sexy']
 
-        false_recall_rate = 0.0259      #误召率
+        false_recall_rate = 0.018      #误召率
 
         fr = codecs.open(suffix_file_path, 'r', 'utf-8').read().split('\n')
         print(fr[:5])
@@ -809,3 +809,15 @@ if __name__ == "__main__":
 
 
 
+
+# im recall_num = 5060
+# im recall_rate = 98.44 %
+# common_porn recall_num = 1389
+# common_porn recall_rate = 97.27 %
+# cartoon_porn recall_num = 1411
+# cartoon_porn recall_rate = 95.14 %
+# pornhub recall_num = 8278
+# pornhub recall_rate = 95.83 %
+# porn normal injudge_rate = 4.60 %
+# porn normal injudge_rate = 6.25 %
+# porn normal injudge_rate = 21.80 %
