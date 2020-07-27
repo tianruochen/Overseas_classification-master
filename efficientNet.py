@@ -220,7 +220,7 @@ class UnPorn_Model(object):
             self.input_shape = (380, 380)
 
     def preprocess(self, image):
-        image_array = self.tfms(image.resize((224, 224))).unsqueeze(0)
+        image_array = self.tfms(image.resize((380, 380))).unsqueeze(0)
         return image_array
 
     def pil2bgr(self, im):

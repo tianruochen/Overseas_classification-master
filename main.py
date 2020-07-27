@@ -17,4 +17,4 @@ if __name__ == '__main__':
     for i in range(1000):
         risk,pred = Unporn_classification.predict_img_api(testimg)
         print(risk,pred)
-
+    print("hello world")
