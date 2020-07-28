@@ -10,15 +10,16 @@ import torch.optim as optim
 from torch import nn
 import collections
 import sys
+import math
 import numpy
 import pandas as pd
 from sklearn.metrics import roc_auc_score
-# from transformers import get_cosine_schedule_with_warmup
+from transformers import get_cosine_schedule_with_warmup
 import warnings
 warnings.filterwarnings('ignore')
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-batch_size = 16
+batch_size = 32
 image_size = 380
 # numer_classes = 11
 numer_classes = 4
@@ -26,8 +27,10 @@ numer_classes = 4
 #非色情模型训练、测试数据集的路径
 data_path_train = '/data1/wangruihao/cocofun/mass1/train.txt'
 data_path_val = '/data1/wangruihao/cocofun/mass1/val.txt'
-save_best_auc_path = '/data/wangruihao/centernet/Centernet_2/EfficientNet/models/models_added_shits/best_accuracy_4_class_b4_accuracy_adl_0_380.pth'
-save_best_accuracy_path = ''
+data_path_train ='/home/changqing/workspaces/Overseas_classification-master/EfficientNet_Simple/data/train.txt'
+data_path_val = '/home/changqing/workspaces/Overseas_classification-master/EfficientNet_Simple/data/val.txt'
+# save_best_model_dir = '/data/wangruihao/centernet/Centernet_2/EfficientNet/models/models_added_shits/best_accuracy_4_class_b4_accuracy_adl_0_380.pth'
+save_best_model_dir = '/home/changqing/workspaces/Overseas_classification-master/EfficientNet_Simple/model/unpron/'
 load_path = '/data/wangruihao/centernet/Centernet_2/EfficientNet/models/models_added_shits/best_accuracy_4_class_b4_accuracy_adl_0_380.pth'
 
 #色情模型训练、测试数据的存储路径
@@ -102,7 +105,8 @@ def validation_2(model,dataloader,num_classes):
         group.to_csv(summay_path+"{}.csv".format(name_classes[name]))
 
 
-def validation(model,val_dataset):
+def validation(model,val_dataset,num_classes,epoch,mode):
+
     count = 0
     eq_count = 0
     l = []
@@ -141,13 +145,38 @@ def validation(model,val_dataset):
                 l.append(labels_list[j])
                 err_img.append(img_dics[j]+'\t'+str(labels_list[j])+'\t'+str(outputs_label[j]))
 
-    with open("val_error_file.txt","w") as f:
-        for i in range(len(err_img)):
-            print(err_img[i])
-            print(err_img[i],file=f)
+    # with open("val_error_file.txt","w") as f:
+    #     for i in range(len(err_img)):
+    #         print(err_img[i])
+    #         print(err_img[i],file=f)
 
-    print("各类图片数量： ", collections.Counter(all_imgs))
-    print("各类识别错误的图片量： ", collections.Counter(l))
+    imgnum_per_cls = collections.Counter(all_imgs)
+    errnum_per_cls = collections.Counter(l)
+    assert mode in ["train","val"], print("mode is necessary")
+    if num_classes == 4:
+        results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results","unpron")
+        name_classes = ["blood","religion","normal","group"]
+    elif num_classes == 11:
+        results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results","pron")
+        name_classes = [["class-"+str(i) for i in range(numer_classes)]]
+
+    if mode == "val":
+        result_file = os.path.join(results_dir, "valresult.txt")
+    else:
+        result_file = os.path.join(results_dir, "trainresult.txt")
+
+    with open(result_file, "a+") as f:
+        print(('='*50)+"epoch:"+str(epoch)+("="*50), file=f)
+        print("各类图片数量： ", imgnum_per_cls, file=f)
+        print("各类识别错误的图片量： ", errnum_per_cls, file=f)
+        count_acc = 0
+        for i in range(num_classes):
+            tem_acc = (imgnum_per_cls[i]-errnum_per_cls[i])/imgnum_per_cls[i]
+            print("accuracy of {} :{:.2f}%-{}/{}".format(
+                name_classes[i],
+                float(tem_acc)*100,errnum_per_cls[i],imgnum_per_cls[i]), file=f)
+            count_acc += tem_acc
+        print("average acc : %.2f" % (float(count_acc/num_classes)*100)+"%", file=f)
     np_pred = numpy.array(l_preds)
     np_label = numpy.array(l_labels)
     roc_auc_score_ = roc_auc_score(np_label,np_pred)
@@ -174,7 +203,6 @@ def train():
     #l_data_train : 列表的列表  每一个内部列表中保留两个元素：[[图片路径，类别标签]...]
     l_data_train,l_data_val = train_val_data_from_dictory(data_path_train,data_path_val)
     ############################
-
 
     ############################
     #dataset
@@ -206,15 +234,14 @@ def train():
         optimizer = optim.SGD(filtered_parameters, lr=0.01, momentum=0.9)
     elif optim_type == 'adam':
         optimizer = optim.Adam(filtered_parameters, lr=0.001)
-    # scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=len(l_data_train) / BATCH_SIZE * 5,
+    #scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=len(l_data_train) / BATCH_SIZE * 5,
     #                                             num_training_steps=num_train_steps)
-    # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,T_max = 50, eta_min=0.0001)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max = 50, eta_min=0.0001)
     # criterion = FocalLoss(256).to(device)
     criterion = nn.CrossEntropyLoss().to(device)
     ############################
 
-    i = 0
-    best_accuracy = 0
+    best_acc = 0
     best_auc = 0
     average = Averager()
     #对于训练数据，获得一个DataLoder对象
@@ -230,49 +257,17 @@ def train():
         collate_fn=AlignCollate_va, pin_memory=False)  # batch = self.collate_fn([self.dataset[i] for i in indices])
     #######################
 
-    model.eval()
-    with torch.no_grad():
-        #validation_2(model,val_dataset,numer_classes)
-        validation_2(model, train_images, numer_classes)
 
-        current_accuracy, l, current_auc = validation(model, val_dataset)
-    model.train()
+
+    # model.train()
     sys.stdout.flush()
-    # for
 
-    if current_accuracy >= best_accuracy:
-        best_accuracy = current_accuracy
-        # torch.save(model.state_dict(),save_best_accuracy_path)
-    if current_auc >= best_auc:
-        best_auc = current_auc
-        # torch.save(model.state_dict(), save_best_auc_path)
-    print('current_accuracy:', current_accuracy, 'best_accuracy:', best_accuracy)
-    print('current_auc:', current_auc, 'best_auc:', best_auc)
+    batch_count = math.floor(len(l_data_train)/batch_size)
 
-    '''
     for epoch in range(300):
-        print('********************'+str(epoch)+'*******************')
+        print('**********************************Epoch: '+str(epoch)+'***************************************')
+        batch_idx = 0
         for image_tensors, labels_, image_dics,difficult_degree in train_images:
-
-            #########################
-            # if i == 0:
-            # if i % 100 == 0 and i > 0:
-            if i % 100 == 0:
-                model.eval()
-                with torch.no_grad():
-                    current_accuracy, l, current_auc = validation(model, val_dataset)
-                model.train()
-                sys.stdout.flush()
-                # for
-                if current_accuracy >= best_accuracy:
-                    best_accuracy = current_accuracy
-                    # torch.save(model.state_dict(),save_best_accuracy_path)
-                if current_auc >= best_auc:
-                    best_auc = current_auc
-                    # torch.save(model.state_dict(), save_best_auc_path)
-                print('current_accuracy:', current_accuracy, 'best_accuracy:', best_accuracy)
-                print('current_auc:', current_auc, 'best_auc:', best_auc)
-            #########################
 
             #########################
             #计算损失
@@ -282,30 +277,72 @@ def train():
             outputs = model_results
             outputs_label = torch.argmax(outputs, dim=1)
             equal = torch.eq(labels, outputs_label)
+            equal_num = equal.sum().cpu()
             average.add(equal.sum(),outputs_label.data.numel())
             cost = criterion(outputs, labels)
             #########################
 
-
             #########################
-            if i % 50 == 0:
-                accuracy = average.val()
-                print('training batch:'+str(i)+' accuracy:',accuracy,'best_accuracy:', best_accuracy)
-                average.reset()
+            accuracy = average.val()
+            # print("Epoch "+str(epoch)+'training batch:'+str(batch_idx)+'/'+str(batch_count)+
+            #       "----accuracy:"+str(accuracy))
+            print("Epoch:{:3d} training batch: {:4}/{:4} --- accuracy: {:.4f} specific：[{:2}/{:2}]".format(
+                epoch, batch_idx, batch_count, accuracy, equal_num, batch_size))
+            average.reset()
             #########################
-
-
-
-
-
 
             #########################
             #backward
             model.zero_grad()
             cost.backward()
             optimizer.step()
-            i += 1
-    '''
+            batch_idx += 1
+
+        model.eval()
+        with torch.no_grad():
+            # validation_2统计数据集中得分最小的图片
+            # validation_2(model,val_dataset,numer_classes)
+            # validation_2(model, train_images, numer_classes)
+
+            # validation 统计验证集上的精确度与auc
+
+            current_acc, l, current_auc = validation(model, train_images, numer_classes, epoch,mode="train")
+            current_acc, l, current_auc = validation(model, val_dataset, numer_classes, epoch, mode="val")
+
+            if current_acc >= best_acc or current_auc >= best_auc:
+                # best_accuracy_11_class_b4_auc_adl_380.pth
+                save_best_acc_path = os.path.join(
+                    save_best_model_dir,
+                    "unpron_cla_{}_epoch_{}_acc_{:.4f}_auc_{:.4f}.pth".format(numer_classes,epoch,current_acc,current_auc))
+                torch.save(model.state_dict(), save_best_acc_path)
+                best_acc = current_acc if current_acc > best_acc else best_acc
+                best_auc = current_auc if current_auc > best_auc else best_auc
+
+            print('current_acc:', current_acc, 'best_acc:', best_acc)
+            print('current_auc:', current_auc, 'best_auc:', best_auc)
+        scheduler.step()
+        model.train()
+
+
+        #########################
+        # if i == 0:
+        # if i % 100 == 0 and i > 0:
+        # if i % 100 == 0:
+        #     model.eval()
+        #     with torch.no_grad():
+        #         current_accuracy, l, current_auc = validation(model, val_dataset)
+        #     model.train()
+        #     sys.stdout.flush()
+        #     # for
+        #     if current_accuracy >= best_accuracy:
+        #         best_accuracy = current_accuracy
+        #         # torch.save(model.state_dict(),save_best_accuracy_path)
+        #     if current_auc >= best_auc:
+        #         best_auc = current_auc
+        #         # torch.save(model.state_dict(), save_best_auc_path)
+        #     print('current_accuracy:', current_accuracy, 'best_accuracy:', best_accuracy)
+        #     print('current_auc:', current_auc, 'best_auc:', best_auc)
+        #########################
 
 if __name__ == '__main__':
     train()

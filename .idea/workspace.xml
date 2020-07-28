@@ -19,14 +19,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a57723bb-4116-4a03-afed-ad35b80238fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/EfficientNet_Simple/data/val.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EfficientNet_Simple/modify_data.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EfficientNet_Simple/modify_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EfficientNet_Simple/summary/unpron/classname.txt" afterDir="false" />
+    <list default="true" id="a57723bb-4116-4a03-afed-ad35b80238fc" name="Default Changelist" comment="crasp low score file">
+      <change afterPath="$PROJECT_DIR$/EfficientNet_Simple/results/unpron/trainresult.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EfficientNet_Simple/results/unpron/valresult.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/module/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/module/datargument.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/module/labelsmoothing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/efficientNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/efficientNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EfficientNet_Simple/modify_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/EfficientNet_Simple/modify_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EfficientNet_Simple/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/EfficientNet_Simple/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/EfficientNet_Simple/Readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +93,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.modify_dataset">
+  <component name="RunManager" selected="Python.train">
     <configuration name="getremoteimg" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Overseas_classification-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -204,11 +206,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.modify_dataset" />
         <item itemvalue="Python.train" />
+        <item itemvalue="Python.modify_dataset" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.getremoteimg" />
         <item itemvalue="Python.post_classifier" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -227,6 +229,8 @@
       <workItem from="1594202330036" duration="3173000" />
       <workItem from="1594717707567" duration="72680000" />
       <workItem from="1595815507553" duration="24272000" />
+      <workItem from="1595916278973" duration="107000" />
+      <workItem from="1595916510943" duration="14721000" />
     </task>
     <task id="LOCAL-00001" summary="crasp low score file">
       <created>1595297699910</created>
@@ -266,6 +270,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -273,62 +278,72 @@
     <option name="LAST_COMMIT_MESSAGE" value="crasp low score file" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="100" y="123" width="1240" height="673" key="DirDiffDialog" timestamp="1595840626987">
+    <state x="98" y="77" width="1240" height="673" key="DirDiffDialog" timestamp="1595916103375">
       <screen x="0" y="23" width="1440" height="873" />
     </state>
     <state x="100" y="123" width="1240" height="673" key="DirDiffDialog/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595840626987" />
-    <state width="1388" height="97" key="GridCell.Tab.0.bottom" timestamp="1595850347849">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state x="98" y="77" width="1240" height="673" key="DirDiffDialog/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103375" />
+    <state width="1388" height="270" key="GridCell.Tab.0.bottom" timestamp="1595935278113">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="97" key="GridCell.Tab.0.bottom/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595850347849" />
-    <state width="1388" height="359" key="GridCell.Tab.0.bottom/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595839874006" />
-    <state width="1388" height="97" key="GridCell.Tab.0.center" timestamp="1595850347848">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="183" key="GridCell.Tab.0.bottom/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595934372463" />
+    <state width="1388" height="161" key="GridCell.Tab.0.bottom/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103229" />
+    <state width="1388" height="270" key="GridCell.Tab.0.bottom/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595935278113" />
+    <state width="1388" height="270" key="GridCell.Tab.0.center" timestamp="1595935278112">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="97" key="GridCell.Tab.0.center/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595850347848" />
-    <state width="1388" height="359" key="GridCell.Tab.0.center/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595839874005" />
-    <state width="1388" height="97" key="GridCell.Tab.0.left" timestamp="1595850347848">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="183" key="GridCell.Tab.0.center/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595934372461" />
+    <state width="1388" height="161" key="GridCell.Tab.0.center/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103228" />
+    <state width="1388" height="270" key="GridCell.Tab.0.center/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595935278112" />
+    <state width="1388" height="270" key="GridCell.Tab.0.left" timestamp="1595935278111">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="97" key="GridCell.Tab.0.left/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595850347848" />
-    <state width="1388" height="359" key="GridCell.Tab.0.left/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595839874004" />
-    <state width="1388" height="97" key="GridCell.Tab.0.right" timestamp="1595850347849">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="183" key="GridCell.Tab.0.left/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595934372460" />
+    <state width="1388" height="161" key="GridCell.Tab.0.left/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103227" />
+    <state width="1388" height="270" key="GridCell.Tab.0.left/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595935278111" />
+    <state width="1388" height="270" key="GridCell.Tab.0.right" timestamp="1595935278112">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="97" key="GridCell.Tab.0.right/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595850347849" />
-    <state width="1388" height="359" key="GridCell.Tab.0.right/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595839874005" />
-    <state width="1388" height="349" key="GridCell.Tab.1.bottom" timestamp="1595843458210">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="183" key="GridCell.Tab.0.right/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595934372462" />
+    <state width="1388" height="161" key="GridCell.Tab.0.right/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103229" />
+    <state width="1388" height="270" key="GridCell.Tab.0.right/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595935278112" />
+    <state width="1388" height="161" key="GridCell.Tab.1.bottom" timestamp="1595934692659">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="349" key="GridCell.Tab.1.bottom/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595843458210" />
-    <state width="1388" height="350" key="GridCell.Tab.1.bottom/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595838989221" />
-    <state width="1388" height="349" key="GridCell.Tab.1.center" timestamp="1595843458210">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="161" key="GridCell.Tab.1.bottom/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595905006955" />
+    <state width="1388" height="161" key="GridCell.Tab.1.bottom/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103233" />
+    <state width="1388" height="161" key="GridCell.Tab.1.bottom/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595934692659" />
+    <state width="1388" height="161" key="GridCell.Tab.1.center" timestamp="1595934692659">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="349" key="GridCell.Tab.1.center/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595843458210" />
-    <state width="1388" height="350" key="GridCell.Tab.1.center/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595838989221" />
-    <state width="1388" height="349" key="GridCell.Tab.1.left" timestamp="1595843458209">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="161" key="GridCell.Tab.1.center/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595905006954" />
+    <state width="1388" height="161" key="GridCell.Tab.1.center/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103231" />
+    <state width="1388" height="161" key="GridCell.Tab.1.center/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595934692659" />
+    <state width="1388" height="161" key="GridCell.Tab.1.left" timestamp="1595934692658">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="349" key="GridCell.Tab.1.left/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595843458209" />
-    <state width="1388" height="350" key="GridCell.Tab.1.left/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595838989220" />
-    <state width="1388" height="349" key="GridCell.Tab.1.right" timestamp="1595843458210">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="161" key="GridCell.Tab.1.left/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595905006954" />
+    <state width="1388" height="161" key="GridCell.Tab.1.left/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103230" />
+    <state width="1388" height="161" key="GridCell.Tab.1.left/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595934692658" />
+    <state width="1388" height="161" key="GridCell.Tab.1.right" timestamp="1595934692659">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1388" height="349" key="GridCell.Tab.1.right/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595843458210" />
-    <state width="1388" height="350" key="GridCell.Tab.1.right/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595838989221" />
-    <state x="97" y="23" key="SettingsEditor" timestamp="1595815610846">
-      <screen x="0" y="23" width="1440" height="873" />
+    <state width="1388" height="161" key="GridCell.Tab.1.right/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595905006954" />
+    <state width="1388" height="161" key="GridCell.Tab.1.right/0.23.1440.873/1440.23.1920.1057@1440.23.1920.1057" timestamp="1595916103232" />
+    <state width="1388" height="161" key="GridCell.Tab.1.right/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595934692659" />
+    <state x="97" y="23" key="SettingsEditor" timestamp="1595900840411">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="97" y="23" key="SettingsEditor/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595815610846" />
+    <state x="97" y="23" key="SettingsEditor/0.23.1440.877/1440.23.1920.1053@0.23.1440.877" timestamp="1595900840411" />
     <state x="539" y="280" width="770" height="616" key="find.popup" timestamp="1595849321651">
       <screen x="0" y="23" width="1440" height="873" />
     </state>
     <state x="539" y="280" width="770" height="616" key="find.popup/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595849321651" />
-    <state x="301" y="23" width="838" height="873" key="search.everywhere.popup" timestamp="1595836292906">
+    <state x="301" y="23" width="838" height="873" key="search.everywhere.popup" timestamp="1595921755951">
       <screen x="0" y="23" width="1440" height="873" />
     </state>
-    <state x="301" y="23" width="838" height="873" key="search.everywhere.popup/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595836292906" />
+    <state x="301" y="23" width="838" height="873" key="search.everywhere.popup/0.23.1440.873/1440.23.1920.1057@0.23.1440.873" timestamp="1595921755951" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -365,10 +380,10 @@
     <SUITE FILE_PATH="coverage/Overseas_classification_master$efficientNet.coverage" NAME="efficientNet Coverage Results" MODIFIED="1594199031585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Overseas_classification_master$network.coverage" NAME="network Coverage Results" MODIFIED="1594018097193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Overseas_classification_master$getremoteimg.coverage" NAME="getremoteimg Coverage Results" MODIFIED="1595227790553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EfficientNet_Simple" />
-    <SUITE FILE_PATH="coverage/Overseas_classification_master$main.coverage" NAME="main Coverage Results" MODIFIED="1594955676046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Overseas_classification_master$post_classifier.coverage" NAME="post_classifier Coverage Results" MODIFIED="1595209590247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EfficientNet_Simple" />
-    <SUITE FILE_PATH="coverage/Overseas_classification_master$modify_dataset.coverage" NAME="modify_dataset Coverage Results" MODIFIED="1595850467529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EfficientNet_Simple" />
+    <SUITE FILE_PATH="coverage/Overseas_classification_master$main.coverage" NAME="main Coverage Results" MODIFIED="1595900854610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Overseas_classification_master$modify_dataset.coverage" NAME="modify_dataset Coverage Results" MODIFIED="1595901571222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EfficientNet_Simple" />
     <SUITE FILE_PATH="coverage/Overseas_classification_master$dataset.coverage" NAME="dataset Coverage Results" MODIFIED="1594093175586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EfficientNet_Simple" />
-    <SUITE FILE_PATH="coverage/Overseas_classification_master$train.coverage" NAME="train Coverage Results" MODIFIED="1595238303559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EfficientNet_Simple" />
+    <SUITE FILE_PATH="coverage/Overseas_classification_master$train.coverage" NAME="train Coverage Results" MODIFIED="1595935278102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EfficientNet_Simple" />
   </component>
 </project>
